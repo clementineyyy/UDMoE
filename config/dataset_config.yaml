@@ -1,0 +1,77 @@
+microvideo1.7m_x1:
+    data_format: csv
+    data_root: ../../data/MicroVideo1.7M/
+    feature_cols:
+    - {active: true, dtype: int, name: group_id, preprocess: copy_from(user_id), remap: false,
+        type: meta}
+    - {active: true, dtype: str, name: user_id, type: categorical}
+    - {active: true, dtype: str, embedding_dim: 64, name: item_id, pretrained_emb: ../../data/MicroVideo1.7M_x1/item_image_emb_dim64.h5,
+        type: categorical}
+    - {active: true, dtype: str, name: cate_id, type: categorical}
+    - {active: true, dtype: str, embedding_dim: 64, max_len: 100, name: clicked_items,
+        padding: pre, pretrained_emb: ../../data/MicroVideo1.7M_x1/item_image_emb_dim64.h5,
+        splitter: ^, type: sequence}
+    - {active: true, dtype: str, max_len: 100, name: clicked_categories, padding: pre,
+        share_embedding: cate_id, splitter: ^, type: sequence}
+    - {active: false, dtype: str, name: timestamp, type: categorical}
+    label_col: {dtype: float, name: is_click}
+    min_categr_count: 1
+    test_data: ../../data/MicroVideo1.7M_x1/test.csv
+    train_data: ../../data/MicroVideo1.7M_x1/train.csv
+    valid_data: ../../data/MicroVideo1.7M_x1/test.csv
+
+Movielenslatest_x1_csv:
+    data_format: csv
+    data_root: ../../data/
+    feature_cols:
+    -   active: true
+        dtype: float
+        name: [user_id, item_id, tag_id]
+        type: categorical
+    label_col: {dtype: float, name: label}
+    min_categr_count: 2
+    test_data: ../../data/MovielensLatest_x1_csv/test.csv
+    train_data: ../../data/MovielensLatest_x1_csv/train.csv
+    valid_data: ../../data/MovielensLatest_x1_csv/valid.csv
+
+amazonelectronics_x1:
+    data_format: csv
+    data_root: ../../data/
+    feature_cols:
+    - {active: true, dtype: int, name: user_id, remap: false, type: meta}
+    - {active: true, dtype: str, name: item_id, type: categorical}
+    - {active: true, dtype: str, name: cate_id, type: categorical}
+    - {active: true, dtype: str, feature_encoder: layers.MaskedAveragePooling(), max_len: 100,
+        name: item_history, share_embedding: item_id, splitter: ^, type: sequence}
+    - {active: true, dtype: str, feature_encoder: layers.MaskedAveragePooling(), max_len: 100,
+        name: cate_history, share_embedding: cate_id, splitter: ^, type: sequence}
+    label_col: {dtype: float, name: label}
+    min_categr_count: 1
+    test_data: ../../data/AmazonElectronics_x1/test.csv
+    train_data: ../../data/AmazonElectronics_x1/train.csv
+    valid_data: ../../data/AmazonElectronics_x1/test.csv
+
+taobaoad_x1:
+    data_format: csv
+    data_root: ../../data/
+    feature_cols:
+    - {active: true, dtype: int, name: group_id, preprocess: copy_from(userid), remap: false,
+        type: meta}
+    -   active: true
+        dtype: str
+        name: [userid, cms_segid, cms_group_id, final_gender_code, age_level, pvalue_level,
+            shopping_level, occupation, new_user_class_level, adgroup_id, cate_id,
+            campaign_id, customer, brand, pid, btag]
+        type: categorical
+    - {active: true, dtype: float, name: price, type: numeric}
+    - {active: true, dtype: str, max_len: 50, name: cate_his, padding: pre, share_embedding: cate_id,
+        splitter: ^, type: sequence}
+    - {active: true, dtype: str, max_len: 50, name: brand_his, padding: pre, share_embedding: brand,
+        splitter: ^, type: sequence}
+    - {active: true, dtype: str, max_len: 50, name: btag_his, padding: pre, share_embedding: btag,
+        splitter: ^, type: sequence}
+    label_col: {dtype: float, name: clk}
+    min_categr_count: 10
+    test_data: ../../data/TaobaoAd_x1/test.csv
+    train_data: ../../data/TaobaoAd_x1/train.csv
+    valid_data: ../../data/TaobaoAd_x1/test.csv
