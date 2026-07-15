@@ -51,7 +51,7 @@ class Homo(BaseModel):
                 nn.AdaptiveAvgPool1d(1),
                 nn.Flatten(),
                 nn.Linear(embedding_dim, embedding_dim)
-            ) for _ in range(3)
+            ) for _ in range(self.expert_centroids)
         ])
         self.decorr_strength = decorr_strength
         self.decorr_type = decorr_type
